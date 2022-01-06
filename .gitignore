@@ -36,12 +36,10 @@
 bin-int/
 
 # Visual Studio files and folder
-CustomGameEngine/.vs/
 **.sln
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
-
-#Debug
-CustomGameEngine/Debug
-CustomGameEngine/CustomGameEngine/Debug
+**/x64
+**/Debug
+CustomGameEngine/.vs/
