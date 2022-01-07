@@ -43,4 +43,4 @@ bin-int/
 **/x64
 **/Debug
 CustomGameEngine/.vs/
-CustomGameEngine/Vendor
+CustomGameEngine/CustomGameEngine/Vendor

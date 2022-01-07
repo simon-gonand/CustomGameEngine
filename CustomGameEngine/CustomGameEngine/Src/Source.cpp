@@ -12,7 +12,7 @@ int main(void) {
 
 	if (!glfwInit())
 	{
-		std::cerr << "Failed to initialize GLFW\n" << std::endl;
+		EngineLog("Failed to initialize GLFW");
 		return -1;
 	}
 
@@ -27,7 +27,7 @@ int main(void) {
 	glewExperimental = true;
 
 	if (glewInit() != GLEW_OK) {
-		std::cerr << "Failed to initialize GLEW\n" << std::endl;
+		EngineLog("Failed to initialize GLEW");
 		return -1;
 	}
 
