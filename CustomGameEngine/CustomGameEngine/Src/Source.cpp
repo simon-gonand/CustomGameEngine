@@ -3,8 +3,13 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "Engine/Logger.h"
 
 int main(void) {
+	Engine::Logger::Init();
+	EngineLog("Engine Logger initialized");
+	DebugLog("Debug Logger initialized");
+
 	if (!glfwInit())
 	{
 		std::cerr << "Failed to initialize GLFW\n" << std::endl;
@@ -30,4 +35,6 @@ int main(void) {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+
+	glfwTerminate();
 }
