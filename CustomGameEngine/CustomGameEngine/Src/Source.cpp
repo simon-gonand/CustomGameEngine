@@ -39,28 +39,50 @@ int main(void) {
 	Engine::Renderer::getInstance()->Init();
 
 	//Triangle test
-	static const GLfloat g_vertex_buffer_data[] = {
-	   -1.0f, -1.0f, 0.0f,
-	   1.0f, -1.0f, 0.0f,
-	   0.0f,  1.0f, 0.0f,
+	static const GLfloat bufferData[] = {
+	    -1.0f,-1.0f,-1.0f,
+		-1.0f,-1.0f, 1.0f,
+		-1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f, 1.0f,
+		 1.0f, 1.0f,-1.0f,
+		 1.0f,-1.0f,-1.0f,
+		-1.0f, 1.0f,-1.0f,
+		 1.0f,-1.0f, 1.0f
 	};
 
-	static const unsigned int index[] = { 0,1,2 };
+	static const unsigned int index[] = { 
+		0, 1, 2, // left face
+		0, 2, 6,
+		0, 1, 7, // bottom face
+		0, 5, 7,
+		0, 6, 4, // front face
+		4, 5, 6,
+		4, 5, 7, // right face
+		3, 4, 5,
+		3, 4, 6, // top face
+		2, 3, 6,
+		1, 2, 7, // back face
+		2, 3, 7
+	};
 
 	Engine::VertexArrayObject vao = Engine::VertexArrayObject();
-	Engine::IndexBufferObject ibo = Engine::IndexBufferObject(index, 3);
-	Engine::VertexBufferObject vbo = Engine::VertexBufferObject(ibo, g_vertex_buffer_data, sizeof(g_vertex_buffer_data));
+	Engine::IndexBufferObject ibo = Engine::IndexBufferObject(index, sizeof(index));
+	Engine::VertexBufferObject vbo = Engine::VertexBufferObject(ibo, bufferData, sizeof(bufferData));
 	vao.AddBuffer(vbo);
 
 	Engine::Renderer::getInstance()->AddVertexArray(vao);
 
 	Engine::Shader shader = Engine::Shader("Src/Shaders/vertShader.vert", "Src/Shaders/fragShader.frag");
+	GLuint MatrixID = glGetUniformLocation(shader.GetId(), "MVP");
+
+	glm::mat4 MVP = Engine::Renderer::getInstance()->CalculateMVPMatrix();
 
 	while (glfwWindowShouldClose(window) == 0) {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 
 		shader.Bind();
+		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
 		Engine::Renderer::getInstance()->Render();
 		Engine::Renderer::getInstance()->Draw();
 		shader.Unbind();

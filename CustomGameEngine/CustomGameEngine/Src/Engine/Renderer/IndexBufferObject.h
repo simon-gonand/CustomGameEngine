@@ -10,7 +10,7 @@ namespace Engine {
 		unsigned int count;
 
 	public:
-		IndexBufferObject(const unsigned int* data, unsigned int count);
+		IndexBufferObject(const unsigned int* data, unsigned int size);
 		~IndexBufferObject();
 
 		void Bind();

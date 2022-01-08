@@ -1,5 +1,8 @@
 #pragma once
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "../Logger/Logger.h"
 #include "VertexArrayObject.h"
 
@@ -23,7 +26,7 @@ namespace Engine {
 		void AddVertexArray(VertexArrayObject& VAO);
 
 		void Init();
-		void CalculateMVPMatrix();
+		glm::mat4 CalculateMVPMatrix();
 		void Render();
 		void Draw();
 	};

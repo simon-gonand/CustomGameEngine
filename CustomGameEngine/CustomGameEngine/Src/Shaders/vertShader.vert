@@ -2,8 +2,8 @@
 
 layout(location = 0) in vec3 pos;
 
-void main(){
-	vec4 glPos = vec4(pos, 1.0);
+uniform mat4 MVP;
 
-	gl_Position = glPos;
+void main(){
+	gl_Position = MVP * vec4(pos, 1.0);
 }
