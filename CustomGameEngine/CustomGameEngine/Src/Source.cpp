@@ -3,7 +3,12 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "Engine/Logger.h"
+#include "Engine/Logger/Logger.h"
+#include "Engine/Renderer/Renderer.h"
+#include "Engine/Renderer/VertexArrayObject.h"
+#include "Engine/Renderer/VertexBufferObject.h"
+#include "Engine/Renderer/IndexBufferObject.h"
+#include "Engine/Renderer/Shader.h"
 
 int main(void) {
 	Engine::Logger::Init();
@@ -31,10 +36,38 @@ int main(void) {
 		return -1;
 	}
 
+	Engine::Renderer::getInstance()->Init();
+
+	//Triangle test
+	static const GLfloat g_vertex_buffer_data[] = {
+	   -1.0f, -1.0f, 0.0f,
+	   1.0f, -1.0f, 0.0f,
+	   0.0f,  1.0f, 0.0f,
+	};
+
+	static const unsigned int index[] = { 0,1,2 };
+
+	Engine::VertexArrayObject vao = Engine::VertexArrayObject();
+	Engine::IndexBufferObject ibo = Engine::IndexBufferObject(index, 3);
+	Engine::VertexBufferObject vbo = Engine::VertexBufferObject(ibo, g_vertex_buffer_data, sizeof(g_vertex_buffer_data));
+	vao.AddBuffer(vbo);
+
+	Engine::Renderer::getInstance()->AddVertexArray(vao);
+
+	Engine::Shader shader = Engine::Shader("Src/Shaders/vertShader.vert", "Src/Shaders/fragShader.frag");
+
 	while (glfwWindowShouldClose(window) == 0) {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+
+		shader.Bind();
+		Engine::Renderer::getInstance()->Render();
+		Engine::Renderer::getInstance()->Draw();
+		shader.Unbind();
 	}
 
+	vao.Unbind();
 	glfwTerminate();
+
+	return 0;
 }
