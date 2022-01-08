@@ -64,9 +64,9 @@ int main(void) {
 		Engine::Renderer::getInstance()->Render();
 		Engine::Renderer::getInstance()->Draw();
 		shader.Unbind();
+		vao.Unbind();
 	}
 
-	vao.Unbind();
 	glfwTerminate();
 
 	return 0;

@@ -24,6 +24,7 @@ namespace Engine {
 
 	void VertexArrayObject::Bind()
 	{
+		glEnableVertexAttribArray(id);
 		glBindVertexArray(id);
 		for (std::shared_ptr<VertexBufferObject> vbo : VBOs) {
 			vbo->Bind();

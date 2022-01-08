@@ -16,9 +16,7 @@ namespace Engine {
 
     void Renderer::AddVertexArray(VertexArrayObject& VAO)
     {
-        DebugLog(VAOs.size());
         VAOs.push_back(std::make_shared<VertexArrayObject>(VAO));
-        DebugLog(VAOs.size());
     }
 
     void Renderer::Init()
