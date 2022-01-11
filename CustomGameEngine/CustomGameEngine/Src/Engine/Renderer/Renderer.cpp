@@ -14,9 +14,9 @@ namespace Engine {
         return _instance;
     }
 
-    void Renderer::AddVertexArray(VertexArrayObject& VAO)
+    void Renderer::AddVertexArray(std::shared_ptr<VertexArrayObject> VAO)
     {
-        VAOs.push_back(std::make_shared<VertexArrayObject>(VAO));
+        VAOs.push_back(VAO);
     }
 
     void Renderer::Init()

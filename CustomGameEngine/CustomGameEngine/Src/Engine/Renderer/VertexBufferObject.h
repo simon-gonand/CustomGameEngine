@@ -12,7 +12,7 @@ namespace Engine {
 		std::shared_ptr<IndexBufferObject> IBO;
 
 	public:
-		VertexBufferObject(IndexBufferObject ibo, const void* data, unsigned int size);
+		VertexBufferObject(std::shared_ptr<IndexBufferObject> ibo, const float* data, unsigned int size);
 		~VertexBufferObject();
 
 		void Bind();

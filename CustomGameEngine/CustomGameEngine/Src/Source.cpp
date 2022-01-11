@@ -10,6 +10,8 @@
 #include "Engine/Renderer/IndexBufferObject.h"
 #include "Engine/Renderer/Shader.h"
 
+#include "Engine/Entity.h"
+
 int main(void) {
 	Engine::Logger::Init();
 	EngineLog("Engine Logger initialized");
@@ -39,7 +41,7 @@ int main(void) {
 	Engine::Renderer::getInstance()->Init();
 
 	//Triangle test
-	static const GLfloat bufferData[] = {
+	float bufferData[] = {
 	    -1.0f,-1.0f,-1.0f,
 		-1.0f,-1.0f, 1.0f,
 		-1.0f, 1.0f, 1.0f,
@@ -50,7 +52,7 @@ int main(void) {
 		 1.0f,-1.0f, 1.0f
 	};
 
-	static const unsigned int index[] = { 
+	unsigned int index[] = { 
 		0, 1, 2, // left face
 		0, 2, 6,
 		0, 1, 7, // bottom face
@@ -65,28 +67,30 @@ int main(void) {
 		2, 3, 7
 	};
 
-	Engine::VertexArrayObject vao = Engine::VertexArrayObject();
+	/*Engine::VertexArrayObject vao = Engine::VertexArrayObject();
 	Engine::IndexBufferObject ibo = Engine::IndexBufferObject(index, sizeof(index));
-	Engine::VertexBufferObject vbo = Engine::VertexBufferObject(ibo, bufferData, sizeof(bufferData));
-	vao.AddBuffer(vbo);
+	Engine::VertexBufferObject vbo = Engine::VertexBufferObject(std::make_shared<Engine::IndexBufferObject>(ibo), 
+		bufferData, sizeof(bufferData));
+	vao.AddBuffer(std::make_shared<Engine::VertexBufferObject>(vbo));
+	Engine::Renderer::getInstance()->AddVertexArray(std::make_shared<Engine::VertexArrayObject>(vao));*/
 
-	Engine::Renderer::getInstance()->AddVertexArray(vao);
+	Engine::Entity entity = Engine::Entity(bufferData, sizeof(bufferData), index, sizeof(index), "Src/Shaders/vertShader.vert", "Src/Shaders/fragShader.frag");
 
-	Engine::Shader shader = Engine::Shader("Src/Shaders/vertShader.vert", "Src/Shaders/fragShader.frag");
-	GLuint MatrixID = glGetUniformLocation(shader.GetId(), "MVP");
+	//Engine::Shader shader = Engine::Shader("Src/Shaders/vertShader.vert", "Src/Shaders/fragShader.frag");
+	//GLuint MatrixID = glGetUniformLocation(shader.GetId(), "MVP");
 
-	glm::mat4 MVP = Engine::Renderer::getInstance()->CalculateMVPMatrix();
+	//glm::mat4 MVP = Engine::Renderer::getInstance()->CalculateMVPMatrix();
 
 	while (glfwWindowShouldClose(window) == 0) {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 
-		shader.Bind();
-		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+		//shader.Bind();
+		//glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
 		Engine::Renderer::getInstance()->Render();
-		Engine::Renderer::getInstance()->Draw();
-		shader.Unbind();
-		vao.Unbind();
+		entity.Draw();
+		//shader.Unbind();
+		//vao.Unbind();
 	}
 
 	glfwTerminate();

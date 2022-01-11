@@ -1,9 +1,9 @@
 #include "VertexBufferObject.h"
 
 namespace Engine {
-	VertexBufferObject::VertexBufferObject(IndexBufferObject ibo, const void* data, unsigned int size)
+	VertexBufferObject::VertexBufferObject(std::shared_ptr<IndexBufferObject> ibo, const float* data, unsigned int size)
 	{
-		IBO = std::make_shared<IndexBufferObject>(ibo);
+		IBO = ibo;
 
 		glGenBuffers(1, &id);
 		glBindBuffer(GL_ARRAY_BUFFER, id);

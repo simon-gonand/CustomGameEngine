@@ -15,7 +15,7 @@ namespace Engine {
 		VertexArrayObject();
 		~VertexArrayObject();
 
-		void AddBuffer(VertexBufferObject& buffer);
+		void AddBuffer(std::shared_ptr<VertexBufferObject> buffer);
 		void Bind();
 		void Unbind();
 
