@@ -32,7 +32,7 @@ namespace Engine {
         EngineLog("Renderer Initialized");
     }
 
-    glm::mat4 Renderer::CalculateMVPMatrix()
+    glm::mat4 Renderer::CalculateMVPMatrix(glm::mat4 model)
     {
         glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
         glm::mat4 View = glm::lookAt(
@@ -40,8 +40,7 @@ namespace Engine {
             glm::vec3(0, 0, 0), // and looks at the origin
             glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
         );
-        glm::mat4 Model = glm::mat4(1.0f);
-        return Projection * View * Model;
+        return Projection * View * model;
     }
 
     void Renderer::Render()

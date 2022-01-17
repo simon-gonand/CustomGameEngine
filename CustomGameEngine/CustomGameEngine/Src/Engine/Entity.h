@@ -18,16 +18,12 @@ namespace Engine {
 		glm::mat4 modelMatrix;
 		
 		std::shared_ptr<VertexArrayObject> VAO;
-		std::shared_ptr<VertexBufferObject> VBO;
-		std::shared_ptr<IndexBufferObject> IBO;
 
 		std::shared_ptr<Shader> shader;
 
 	public:
-
-
-		Entity(float* bufferData, size_t bufferDataSize, unsigned int* indices, size_t indicesDataSize, 
-			const char* vertSrcFile, const char* fragSrcFile);
+		Entity(float* bufferData, size_t bufferDataSize, unsigned int* indices, size_t indicesDataSize,
+			const char* vertSrcFile, const char* fragSrcFile, glm::mat4 modelMatrix = glm::mat4(1.0f));
 	
 		void Draw();
 	};

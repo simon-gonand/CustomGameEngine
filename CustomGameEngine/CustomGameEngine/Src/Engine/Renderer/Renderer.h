@@ -26,7 +26,7 @@ namespace Engine {
 		void AddVertexArray(std::shared_ptr<VertexArrayObject> VAO);
 
 		void Init();
-		glm::mat4 CalculateMVPMatrix();
+		glm::mat4 CalculateMVPMatrix(glm::mat4 model);
 		void Render();
 		void Draw();
 	};
