@@ -2,6 +2,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Engine/Logger/Logger.h"
 #include "Engine/Renderer/Renderer.h"
@@ -39,6 +40,9 @@ int main(void) {
 		return -1;
 	}
 
+	float currentFrameTime = glfwGetTime();
+	float lastFrameTime = currentFrameTime;
+
 	Engine::GUI::Init(window);
 	Engine::Renderer::getInstance()->Init();
 
@@ -68,10 +72,14 @@ int main(void) {
 		1, 2, 7, // back face
 		2, 3, 7
 	};
+	
+	float position[3] = { 1.0f, 0.0f, 0.0f };
+	glm::vec3 pos = glm::make_vec3(position);
 
 	Engine::Entity entity = Engine::Entity(bufferData, sizeof(bufferData), index, sizeof(index), 
 		"Src/Shaders/vertShader.vert", "Src/Shaders/fragShader.frag",
-		glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 2.0f, 1.0f));
+		pos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 2.0f, 1.0f));
+
 
 	while (glfwWindowShouldClose(window) == 0) {
 		glfwSwapBuffers(window);
@@ -80,12 +88,19 @@ int main(void) {
 		Engine::GUI::CreateNewFrame();
 
 		Engine::Renderer::getInstance()->Render();
-
-		entity.Draw();
+		currentFrameTime = glfwGetTime();
+		Engine::Renderer::getInstance()->Update(currentFrameTime - lastFrameTime);
+		lastFrameTime = currentFrameTime;
 		Engine::Renderer::getInstance()->Draw();
 		
 		ImGui::Begin("Test");
+		ImGui::Text("Transform");
+		ImGui::TextUnformatted("Position");
+		ImGui::SameLine();
+		ImGui::SliderFloat3("", position, -3, 3);
+
 		ImGui::End();
+
 		Engine::GUI::Render();
 	}
 

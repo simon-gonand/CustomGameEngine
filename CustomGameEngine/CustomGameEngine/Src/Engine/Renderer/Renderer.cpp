@@ -49,6 +49,12 @@ namespace Engine {
         // TODO
     }
 
+    void Renderer::Update(float tick) {
+        for (Entity* entity : entities) {
+            entity->Update(tick);
+        }
+    }
+
     void Renderer::Draw()
     {
         for (Entity *entity : entities) {

@@ -28,6 +28,7 @@ namespace Engine {
 		void Init();
 		glm::mat4 CalculateMVPMatrix(glm::mat4 model);
 		void Render();
+		void Update(float tick);
 		void Draw();
 	};
 }

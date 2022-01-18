@@ -15,7 +15,6 @@ namespace Engine {
 		glm::mat4 scaleMatrix = glm::scale(scale);
 		glm::mat4 rotationMatrix = glm::eulerAngleXYZ(rotation.x, rotation.y, rotation.z);
 		modelMatrix = translationMatrix * rotationMatrix * scaleMatrix;
-		DebugLog(modelMatrix[3][0]);
 
 		shader = std::make_shared<Shader>(vertSrcFile, fragSrcFile);
 		VAO = std::make_shared<VertexArrayObject>();
@@ -41,5 +40,10 @@ namespace Engine {
 		// Unbind
 		VAO->Unbind();
 		shader->Unbind();
+	}
+
+	void Entity::Update(float tick) 
+	{
+
 	}
 }
