@@ -16,7 +16,22 @@ namespace Engine {
 		std::shared_ptr<IndexBufferObject> IBO = std::make_shared<IndexBufferObject>(indices, indicesDataSize);
 		VAO->AddBuffer(std::make_shared<VertexBufferObject>(IBO, bufferData, bufferDataSize));
 
-		Renderer::getInstance()->AddEntity(this);
+		Renderer::GetInstance()->AddEntity(this);
+	}
+
+	glm::vec3 Entity::GetPosition()
+	{
+		return position;
+	}
+
+	glm::vec3 Entity::GetRotation()
+	{
+		return rotation;
+	}
+
+	glm::vec3 Entity::GetScale()
+	{
+		return scale;
 	}
 
 	void Entity::CalculateModelMatrix() {
@@ -48,7 +63,7 @@ namespace Engine {
 		
 		// Set Model View Projection Matrix
 		GLuint MatrixID = glGetUniformLocation(shader->GetId(), "MVP");
-		glm::mat4 MVP = Renderer::getInstance()->CalculateMVPMatrix(modelMatrix);
+		glm::mat4 MVP = Renderer::GetInstance()->CalculateMVPMatrix(modelMatrix);
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
 
 		// Draw Elements

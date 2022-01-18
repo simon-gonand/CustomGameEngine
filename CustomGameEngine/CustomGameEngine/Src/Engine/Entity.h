@@ -32,6 +32,9 @@ namespace Engine {
 			const char* vertSrcFile, const char* fragSrcFile,
 			glm::vec3 position = glm::vec3(0.0f), glm::vec3 rotation = glm::vec3(0.0f), glm::vec3 scale = glm::vec3(1.0f));
 	
+		glm::vec3 GetPosition();
+		glm::vec3 GetRotation();
+		glm::vec3 GetScale();
 		void SetPosition(glm::vec3 position);
 		void SetRotation(glm::vec3 rotation);
 		void SetScale(glm::vec3 scale);

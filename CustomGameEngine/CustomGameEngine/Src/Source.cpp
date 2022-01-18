@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -44,7 +42,7 @@ int main(void) {
 	float lastFrameTime = currentFrameTime;
 
 	Engine::GUI::Init(window);
-	Engine::Renderer::getInstance()->Init();
+	Engine::Renderer::GetInstance()->Init();
 
 	//Triangle test
 	float bufferData[] = {
@@ -86,35 +84,64 @@ int main(void) {
 		"Src/Shaders/vertShader.vert", "Src/Shaders/fragShader.frag",
 		pos, rot, sca);
 
+	Engine::Entity entity2 = Engine::Entity(bufferData, sizeof(bufferData), index, sizeof(index),
+		"Src/Shaders/vertShader.vert", "Src/Shaders/fragShader.frag",
+		pos, rot, sca);
 
+	int selectedEntity = Engine::Renderer::GetInstance()->GetEntities().size();
 	while (glfwWindowShouldClose(window) == 0) {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 
 		Engine::GUI::CreateNewFrame();
 
-		Engine::Renderer::getInstance()->Render();
+		Engine::Renderer::GetInstance()->Render();
 		currentFrameTime = glfwGetTime();
-		Engine::Renderer::getInstance()->Update(currentFrameTime - lastFrameTime);
+		Engine::Renderer::GetInstance()->Update(currentFrameTime - lastFrameTime);
 		lastFrameTime = currentFrameTime;
-		Engine::Renderer::getInstance()->Draw();
+		Engine::Renderer::GetInstance()->Draw();
 		
 		ImGui::Begin("Test");
-		ImGui::Text("Transform");
-		ImGui::TextUnformatted("Position");
-		ImGui::SameLine();
-		if (ImGui::SliderFloat3("", position, -3, 3)) {
-			entity.SetPosition(glm::make_vec3(position));
+		ImGui::Text("Entities");
+		
+		std::vector<Engine::Entity*> entities = Engine::Renderer::GetInstance()->GetEntities();
+		ImGui::Indent();
+		for (int i = 0; i < entities.size(); ++i) {
+			char buf[32];
+			sprintf_s(buf, "Entity %d", i);
+			if (ImGui::Selectable(buf, selectedEntity == i)) {
+				selectedEntity = i;
+			}
 		}
-		ImGui::TextUnformatted("Rotation");
-		ImGui::SameLine();
-		if (ImGui::SliderFloat3(" ", rotation, -6, 6)) {
-			entity.SetRotation(glm::make_vec3(rotation));
-		}
-		ImGui::TextUnformatted("Scale");
-		ImGui::SameLine();
-		if (ImGui::SliderFloat3("  ", scale, -3, 3)) {
-			entity.SetScale(glm::make_vec3(scale));
+		ImGui::Unindent();
+
+		ImGui::NewLine();
+		if (selectedEntity < entities.size()) {
+			ImGui::Text("Transform");
+			ImGui::TextUnformatted("Position");
+			ImGui::SameLine();
+
+			glm::vec3 v = entities[selectedEntity]->GetPosition();
+			float *p = glm::value_ptr(v);
+			if (ImGui::SliderFloat3("", p, -3, 3)) {
+				entities[selectedEntity]->SetPosition(glm::make_vec3(p));
+			}
+
+			v = entities[selectedEntity]->GetRotation();
+			float* r = glm::value_ptr(v);
+			ImGui::TextUnformatted("Rotation");
+			ImGui::SameLine();
+			if (ImGui::SliderFloat3(" ", r, -6, 6)) {
+				entities[selectedEntity]->SetRotation(glm::make_vec3(r));
+			}
+
+			v = entities[selectedEntity]->GetScale();
+			float* s = glm::value_ptr(v);
+			ImGui::TextUnformatted("Scale");
+			ImGui::SameLine();
+			if (ImGui::SliderFloat3("  ", s, -3, 3)) {
+				entities[selectedEntity]->SetScale(glm::make_vec3(s));
+			}
 		}
 
 		ImGui::End();

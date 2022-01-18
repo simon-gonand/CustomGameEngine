@@ -7,7 +7,7 @@ namespace Engine {
     {
     }
 
-    Renderer* Renderer::getInstance()
+    Renderer* Renderer::GetInstance()
     {
         if (_instance == nullptr) 
             _instance = new Renderer();
@@ -17,6 +17,10 @@ namespace Engine {
     void Renderer::AddEntity(Entity *entity)
     {
         entities.push_back(entity);
+    }
+
+    std::vector<Entity*> Renderer::GetEntities() const {
+        return entities;
     }
 
     void Renderer::Init()

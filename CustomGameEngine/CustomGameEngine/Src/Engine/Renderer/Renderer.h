@@ -21,9 +21,10 @@ namespace Engine {
 		void operator=(const Renderer&) = delete;
 
 
-		static Renderer* getInstance();
+		static Renderer* GetInstance();
 		
 		void AddEntity(Entity* entity);
+		std::vector<Entity*> GetEntities() const;
 
 		void Init();
 		glm::mat4 CalculateMVPMatrix(glm::mat4 model);
