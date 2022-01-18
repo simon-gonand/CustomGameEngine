@@ -14,9 +14,9 @@ namespace Engine {
         return _instance;
     }
 
-    void Renderer::AddVertexArray(std::shared_ptr<VertexArrayObject> VAO)
+    void Renderer::AddEntity(Entity *entity)
     {
-        VAOs.push_back(VAO);
+        entities.push_back(entity);
     }
 
     void Renderer::Init()
@@ -51,9 +51,8 @@ namespace Engine {
 
     void Renderer::Draw()
     {
-        for (std::shared_ptr<VertexArrayObject> VAO : VAOs) {
-            VAO->Bind();
-            VAO->Draw();
+        for (Entity *entity : entities) {
+            entity->Draw();
         }
     }
 }

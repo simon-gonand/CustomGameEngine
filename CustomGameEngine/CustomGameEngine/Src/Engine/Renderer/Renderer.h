@@ -4,7 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "../Logger/Logger.h"
-#include "VertexArrayObject.h"
+#include "../Entity.h"
 
 namespace Engine {
 	class Renderer
@@ -14,7 +14,7 @@ namespace Engine {
 
 		Renderer();
 
-		std::vector<std::shared_ptr<VertexArrayObject>> VAOs;
+		std::vector<Entity*> entities;
 	public:
 		Renderer(Renderer& other) = delete;
 		~Renderer() = delete;
@@ -23,7 +23,7 @@ namespace Engine {
 
 		static Renderer* getInstance();
 		
-		void AddVertexArray(std::shared_ptr<VertexArrayObject> VAO);
+		void AddEntity(Entity* entity);
 
 		void Init();
 		glm::mat4 CalculateMVPMatrix(glm::mat4 model);

@@ -69,7 +69,9 @@ int main(void) {
 		2, 3, 7
 	};
 
-	Engine::Entity entity = Engine::Entity(bufferData, sizeof(bufferData), index, sizeof(index), "Src/Shaders/vertShader.vert", "Src/Shaders/fragShader.frag");
+	Engine::Entity entity = Engine::Entity(bufferData, sizeof(bufferData), index, sizeof(index), 
+		"Src/Shaders/vertShader.vert", "Src/Shaders/fragShader.frag",
+		glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 2.0f, 1.0f));
 
 	while (glfwWindowShouldClose(window) == 0) {
 		glfwSwapBuffers(window);
@@ -80,6 +82,7 @@ int main(void) {
 		Engine::Renderer::getInstance()->Render();
 
 		entity.Draw();
+		Engine::Renderer::getInstance()->Draw();
 		
 		ImGui::Begin("Test");
 		ImGui::End();
