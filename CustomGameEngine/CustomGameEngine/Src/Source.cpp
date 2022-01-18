@@ -76,9 +76,15 @@ int main(void) {
 	float position[3] = { 1.0f, 0.0f, 0.0f };
 	glm::vec3 pos = glm::make_vec3(position);
 
+	float rotation[3] = { 0.0f, 0.0f, 0.0f };
+	glm::vec3 rot = glm::make_vec3(rotation);
+
+	float scale[3] = { 1.0f, 2.0f, 1.0f };
+	glm::vec3 sca = glm::make_vec3(scale);
+
 	Engine::Entity entity = Engine::Entity(bufferData, sizeof(bufferData), index, sizeof(index), 
 		"Src/Shaders/vertShader.vert", "Src/Shaders/fragShader.frag",
-		pos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 2.0f, 1.0f));
+		pos, rot, sca);
 
 
 	while (glfwWindowShouldClose(window) == 0) {
@@ -97,7 +103,19 @@ int main(void) {
 		ImGui::Text("Transform");
 		ImGui::TextUnformatted("Position");
 		ImGui::SameLine();
-		ImGui::SliderFloat3("", position, -3, 3);
+		if (ImGui::SliderFloat3("", position, -3, 3)) {
+			entity.SetPosition(glm::make_vec3(position));
+		}
+		ImGui::TextUnformatted("Rotation");
+		ImGui::SameLine();
+		if (ImGui::SliderFloat3(" ", rotation, -6, 6)) {
+			entity.SetRotation(glm::make_vec3(rotation));
+		}
+		ImGui::TextUnformatted("Scale");
+		ImGui::SameLine();
+		if (ImGui::SliderFloat3("  ", scale, -3, 3)) {
+			entity.SetScale(glm::make_vec3(scale));
+		}
 
 		ImGui::End();
 

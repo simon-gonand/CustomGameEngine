@@ -25,11 +25,17 @@ namespace Engine {
 
 		std::shared_ptr<Shader> shader;
 
+		void CalculateModelMatrix();
+
 	public:
 		Entity(float* bufferData, size_t bufferDataSize, unsigned int* indices, size_t indicesDataSize,
 			const char* vertSrcFile, const char* fragSrcFile,
 			glm::vec3 position = glm::vec3(0.0f), glm::vec3 rotation = glm::vec3(0.0f), glm::vec3 scale = glm::vec3(1.0f));
 	
+		void SetPosition(glm::vec3 position);
+		void SetRotation(glm::vec3 rotation);
+		void SetScale(glm::vec3 scale);
+
 		void Draw();
 		void Update(float tick);
 	};
